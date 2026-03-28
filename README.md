@@ -7,3 +7,29 @@ On the administrative side, the system includes a dedicated admin panel that all
 The backend is powered by Entity Framework Core, which handles database interactions using object-relational mapping (ORM). Microsoft SQL Server is used as the database management system to store user data, book information, orders, and cart details.
 
 The project demonstrates key concepts such as authentication and authorization, MVC architecture, database integration, file handling (image upload), and basic e-commerce workflow. It is designed as a beginner-friendly yet practical project to build a strong foundation in backend web development using .NET technologies.
+
+Frontend:
+- HTML
+- CSS
+- Bootstrap
+
+Backend:
+- ASP.NET Core MVC
+- C#
+
+Database:
+- Microsoft SQL Server
+- Entity Framework Core (ORM)
+
+Authentication:
+- Session-based Authentication (or JWT if used)
+
+Tools & Platforms:
+- Visual Studio
+- SQL Server Management Studio (SSMS)
+- Git & GitHub
+
+Other Features:
+- File Upload (Book Images)
+- CRUD Operations
+- Role-based Access (Admin/User)
