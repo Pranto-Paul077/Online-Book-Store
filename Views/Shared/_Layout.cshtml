@@ -1,0 +1,170 @@
+﻿@using Microsoft.AspNetCore.Http
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Online Book Store</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* ফুটারকে সবসময় পেজের নিচে রাখবে */
+        }
+
+        /* রঙিন Header / Navbar ডিজাইন */
+        .custom-navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* সুন্দর পার্পল-ব্লু গ্রেডিয়েন্ট */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+            .nav-link:hover {
+                color: #ffe6e6 !important;
+                transform: translateY(-2px); /* মাউস নিলে হালকা উপরে উঠবে */
+            }
+
+        .btn-custom-outline {
+            border: 2px solid #fff;
+            color: #fff;
+            border-radius: 25px;
+            padding: 5px 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+            .btn-custom-outline:hover {
+                background-color: #fff;
+                color: #764ba2;
+            }
+
+        /* রঙিন Footer ডিজাইন */
+        .custom-footer {
+            background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%); /* ডার্ক গ্রেডিয়েন্ট */
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+            margin-top: auto; /* কন্টেন্ট কম থাকলেও ফুটার নিচে থাকবে */
+        }
+
+        .footer-link {
+            color: #d1d8e0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .footer-link:hover {
+                color: #fff;
+            }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark custom-navbar py-3">
+            <div class="container">
+                <a class="navbar-brand text-white" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-book-open me-2"></i>BookStore
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-toggle="target" aria-controls="navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Home" asp-action="Index"><i class="fas fa-home me-1"></i> Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Home" asp-action="Privacy"><i class="fas fa-info-circle me-1"></i> About</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav align-items-center">
+                        @if (Context.Session.GetString("UserEmail") != null)
+                        {
+                            <li class="nav-item me-3">
+                                <span class="text-white fw-bold"><i class="fas fa-user-circle me-1"></i> Hi, @Context.Session.GetString("UserEmail")</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn-custom-outline" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt me-1"></i> Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item me-2">
+                                <a class="nav-link text-white fw-bold" asp-controller="Account" asp-action="Login"><i class="fas fa-sign-in-alt me-1"></i> Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn-custom-outline" asp-controller="Account" asp-action="Register"><i class="fas fa-user-plus me-1"></i> Register</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-5 mb-5">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="custom-footer text-white text-center py-4">
+        <div class="container">
+            <div class="row text-md-start">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5><i class="fas fa-book-reader me-2"></i>Online Book Store</h5>
+                    <p class="small text-light mt-2">All your favorite books are now in one place. Read and gain knowledge.</p>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled mt-2 small">
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                        <li><a href="#" class="footer-link">Contact Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <h5>Follow Us</h5>
+                    <div class="mt-3">
+                        <a href="#" class="footer-link me-3"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="footer-link me-3"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="footer-link"><i class="fab fa-instagram fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-light opacity-50 my-3" />
+            <div class="small text-light">
+                &copy; 2026 - Online Book Store | Designed with <i class="fas fa-heart text-danger"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

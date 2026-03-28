@@ -1,0 +1,152 @@
+﻿@model OnlineBookStore.Models.Book
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<style>
+    /* পেজের মূল থিম (হোমপেজের সাথে মিল রেখে অরেঞ্জ-ওয়ার্ম থিম) */
+    .details-card {
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        border: none;
+        background-color: #ffffff;
+        padding: 30px;
+    }
+
+    /* বইয়ের ছবির ডিজাইন */
+    .book-cover-large {
+        width: 100%;
+        max-width: 350px;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        transition: transform 0.3s ease;
+    }
+
+        .book-cover-large:hover {
+            transform: scale(1.03); /* মাউস নিলে ছবি হালকা জুম হবে */
+        }
+
+    /* দাম এবং স্টকের স্টাইল */
+    .price-text {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .stock-badge {
+        font-size: 1rem;
+        padding: 8px 15px;
+        border-radius: 20px;
+    }
+
+    /* Add to Cart বাটন */
+    .btn-add-cart {
+        background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+        .btn-add-cart:hover {
+            background: linear-gradient(135deg, #feb47b 0%, #ff7e5f 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 126, 95, 0.4);
+            color: white;
+        }
+
+    /* কোয়ান্টিটি ইনপুট */
+    .qty-input {
+        border-radius: 30px;
+        text-align: center;
+        font-weight: bold;
+        border: 2px solid #eee;
+    }
+
+        .qty-input:focus {
+            border-color: #ff7e5f;
+            box-shadow: none;
+        }
+</style>
+
+<div class="container mt-4 mb-5">
+
+    <div class="mb-4">
+        <a href="/Home/Index" class="text-decoration-none text-muted fw-bold hover-orange">
+            <i class="fas fa-arrow-left me-1"></i> Back to Store
+        </a>
+    </div>
+
+    <div class="card details-card">
+        <div class="row gx-5">
+
+            <div class="col-md-5 text-center mb-4 mb-md-0">
+                <img src="@Model.ImagePath" alt="@Model.Title" class="book-cover-large" onerror="this.src='/images/no-image.jpg'" />
+            </div>
+
+            <div class="col-md-7 d-flex flex-column">
+
+                <h1 class="fw-bold text-dark mb-2">@Model.Title</h1>
+                <h5 class="text-muted mb-4"><i class="fas fa-pen-nib me-2"></i>By <strong>@Model.Author</strong></h5>
+
+                <div class="mb-4 border-bottom pb-4">
+                    <span class="price-text">৳ @Model.Price.ToString("0.00")</span>
+
+                    <div class="mt-3">
+                        @if (Model.Stock > 0)
+                        {
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success stock-badge">
+                                <i class="fas fa-check-circle me-1"></i> In Stock (@Model.Stock available)
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger stock-badge">
+                                <i class="fas fa-times-circle me-1"></i> Out of Stock
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="mb-5 flex-grow-1">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-info-circle text-secondary me-2"></i>Synopsis</h5>
+                    <p class="text-muted" style="line-height: 1.8;">
+                        @Model.Description
+                    </p>
+                </div>
+
+                @if (Model.Stock > 0)
+                {
+                    <form action="/Cart/Add" method="post" class="mt-auto">
+                        <input type="hidden" name="bookId" value="@Model.BookId" />
+
+                        <div class="row align-items-center">
+                            <div class="col-4 col-md-3">
+                                <label class="form-label fw-bold text-muted small mb-1">Quantity</label>
+                                <input type="number" name="quantity" class="form-control form-control-lg qty-input" value="1" min="1" max="@Model.Stock" required />
+                            </div>
+                            <div class="col-8 col-md-9 mt-4">
+                                <button type="submit" class="btn btn-add-cart">
+                                    <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-warning text-center mt-auto border-warning" role="alert">
+                        <strong><i class="fas fa-exclamation-triangle me-1"></i> Sorry!</strong> This book is currently out of stock. Please check back later.
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

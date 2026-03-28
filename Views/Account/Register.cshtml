@@ -1,0 +1,62 @@
+﻿@model OnlineBookStore.Models.User
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    body {
+        background-color: #f4f7f6;
+    }
+
+    .auth-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .auth-header {
+        font-weight: 600;
+        color: #333;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card auth-card p-4">
+                <div class="card-body">
+
+                    <h2 class="auth-header text-center mb-2">Create an Account</h2>
+                    <p class="text-center text-muted mb-4">Join our Online Book Store today!</p>
+
+                    <form asp-action="Register" method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Full Name</label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g. John Doe" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Email Address</label>
+                            <input asp-for="Email" type="email" class="form-control" placeholder="name@example.com" required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Password</label>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Create a strong password" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3" style="border-radius: 25px; padding: 10px; font-weight: bold;">
+                            Register
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <span class="text-muted">Already have an account?</span>
+                        <a href="/Account/Login" class="text-decoration-none fw-bold">Login here</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

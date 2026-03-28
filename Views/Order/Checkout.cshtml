@@ -1,0 +1,153 @@
+﻿@{
+    ViewData["Title"] = "Secure Checkout";
+}
+
+<style>
+    /* চেকআউট কার্ডের স্পেশাল ডিজাইন */
+    .checkout-card {
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        border: none;
+        background-color: #ffffff;
+        overflow: hidden;
+    }
+
+    .checkout-header {
+        background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-radius: 15px 15px 0 0;
+    }
+
+    /* ইনপুট ফিল্ড এবং ফোকাস ইফেক্ট */
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .input-group-text {
+        background-color: #f8f9fa;
+        color: #ff7e5f;
+        border-right: none;
+    }
+
+    .form-control {
+        border-left: none;
+    }
+
+        .form-control:focus {
+            border-color: #ced4da; /* ইনপুটের ডিফল্ট বর্ডার কালার */
+            box-shadow: none;
+        }
+    /* পুরো ইনপুট গ্রুপের ফোকাস ইফেক্ট */
+    .input-group:focus-within {
+        box-shadow: 0 0 0 0.25rem rgba(255, 126, 95, 0.25);
+        border-radius: 0.375rem;
+    }
+
+    /* Place Order বাটন */
+    .btn-place-order {
+        background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 15px 20px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+        .btn-place-order:hover {
+            background: linear-gradient(135deg, #feb47b 0%, #ff7e5f 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 126, 95, 0.4);
+            color: white;
+        }
+
+    /* ট্রাস্ট ব্যাজ (বিশ্বস্ততা বোঝানোর জন্য) */
+    .trust-badges {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+        border: 1px dashed #ced4da;
+    }
+</style>
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+
+            <div class="mb-3">
+                <a href="/Cart/Index" class="text-decoration-none text-muted fw-bold hover-orange">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Cart
+                </a>
+            </div>
+
+            <div class="card checkout-card">
+
+                <div class="checkout-header">
+                    <h3 class="fw-bold mb-0"><i class="fas fa-lock me-2"></i> Secure Checkout</h3>
+                    <p class="mb-0 text-white opacity-75 small mt-1">Please provide your delivery details below</p>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+
+                    <form method="post" action="/Order/PlaceOrder">
+
+                        <div class="mb-4">
+                            <label class="form-label">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input name="name" type="text" class="form-control form-control-lg" placeholder="e.g. John Doe" required />
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Phone Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+                                <input name="phone" type="tel" class="form-control form-control-lg" placeholder="e.g. +880 1XXX-XXXXXX" required />
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label">Delivery Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text align-items-start pt-3"><i class="fas fa-map-marker-alt"></i></span>
+                                <textarea name="address" class="form-control form-control-lg" rows="3" placeholder="House/Apartment, Road, Area, City..." required></textarea>
+                            </div>
+                            <small class="text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i> Please provide a detailed address for faster delivery.</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-place-order">
+                            <i class="fas fa-check-circle me-2"></i> Confirm & Place Order
+                        </button>
+
+                    </form>
+
+                    <div class="trust-badges text-center mt-4">
+                        <div class="row text-muted small">
+                            <div class="col-4">
+                                <i class="fas fa-shield-alt fa-2x mb-2 text-success"></i><br />
+                                <strong>100% Secure</strong><br />Checkout
+                            </div>
+                            <div class="col-4 border-start border-end">
+                                <i class="fas fa-truck fa-2x mb-2" style="color: #ff7e5f;"></i><br />
+                                <strong>Fast & Safe</strong><br />Delivery
+                            </div>
+                            <div class="col-4">
+                                <i class="fas fa-undo fa-2x mb-2 text-primary"></i><br />
+                                <strong>Easy Return</strong><br />Policy
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

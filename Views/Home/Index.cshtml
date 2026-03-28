@@ -1,0 +1,151 @@
+﻿@model IEnumerable<OnlineBookStore.Models.Book>
+@{
+    ViewData["Title"] = "Explore Books";
+}
+
+<style>
+    /* ইউজার সাইডের জন্য স্পেশাল ওয়ার্ম (Warm) কালার থিম */
+    .user-theme-text {
+        color: #ff5722; /* সুন্দর একটি ডিপ অরেঞ্জ কালার */
+    }
+
+    /* বইয়ের কার্ডের ডিজাইন */
+    .book-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        height: 100%; /* সবগুলো কার্ডের উচ্চতা সমান রাখার জন্য */
+        background-color: #ffffff;
+        overflow: hidden;
+    }
+
+        /* কার্ডে মাউস নিলে ইফেক্ট */
+        .book-card:hover {
+            transform: translateY(-10px); /* একটু ওপরের দিকে উঠবে */
+            box-shadow: 0 15px 30px rgba(255, 87, 34, 0.15); /* অরেঞ্জ কালারের গ্লো বা শ্যাডো */
+        }
+
+    /* ছবির কন্টেইনার এবং হোভার জুম ইফেক্ট */
+    .book-image-container {
+        position: relative;
+        height: 260px;
+        overflow: hidden;
+        background-color: #f8f9fa;
+    }
+
+    .book-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* ছবি চ্যাপ্টা না হয়ে সুন্দরভাবে ফিট হবে */
+        transition: transform 0.5s ease;
+    }
+
+    .book-card:hover .book-image {
+        transform: scale(1.08); /* মাউস নিলে ছবি হালকা জুম হবে */
+    }
+
+    /* দাম দেখানোর জন্য আধুনিক প্রাইস ব্যাজ */
+    .price-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); /* অরেঞ্জ গ্রেডিয়েন্ট */
+        color: white;
+        padding: 6px 15px;
+        border-radius: 25px;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        z-index: 10;
+        font-size: 1.1rem;
+    }
+
+    /* View Details বাটনের স্টাইল */
+    .btn-view {
+        background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 8px 20px;
+        font-weight: 600;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+        .btn-view:hover {
+            background: linear-gradient(135deg, #feb47b 0%, #ff7e5f 100%); /* মাউস নিলে কালার উল্টে যাবে */
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 126, 95, 0.4);
+        }
+
+    /* বইয়ের নাম এবং লেখকের স্টাইল */
+    .book-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #2b2b2b;
+        margin-bottom: 5px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* নাম বড় হলে ২ লাইনের পর ... দেখাবে */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .author-text {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+
+    <div class="text-center mb-5 pb-2">
+        <h2 class="fw-bold display-5 mb-2">Explore Our <span class="user-theme-text">Collection</span></h2>
+        <p class="text-muted">Find your next favorite book from our carefully curated selection.</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+
+        @if (Model != null && Model.Any())
+        {
+            foreach (var book in Model)
+            {
+                <div class="col">
+                    <div class="card book-card">
+
+                        <div class="book-image-container">
+                            <div class="price-badge">
+                                ৳ @book.Price.ToString("0.00")
+                            </div>
+
+                            <img src="@book.ImagePath" alt="@book.Title" class="book-image" onerror="this.src='/images/no-image.jpg'" />
+                        </div>
+
+                        <div class="card-body d-flex flex-column p-4">
+
+                            <h5 class="book-title" title="@book.Title">@book.Title</h5>
+
+                            <p class="author-text"><i class="fas fa-pen-nib me-1 text-secondary"></i> @book.Author</p>
+
+                            <div class="mt-auto pt-3">
+                                <a href="/Home/Details/@book.BookId" class="btn btn-view">
+                                    <i class="fas fa-eye me-1"></i> View Details
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-box-open fa-4x text-muted mb-3 opacity-50"></i>
+                <h3 class="text-muted">No books available right now.</h3>
+                <p>Please check back later!</p>
+            </div>
+        }
+
+    </div>
+</div>

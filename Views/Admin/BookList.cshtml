@@ -1,0 +1,115 @@
+﻿@model IEnumerable<OnlineBookStore.Models.Book>
+@{
+    ViewData["Title"] = "Manage Books";
+}
+
+<style>
+    /* টেবিলের বাইরের কার্ড ডিজাইন */
+    .table-card {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border: none;
+        overflow: hidden; /* ভেতরের টেবিলের কর্নারগুলো গোলাকার রাখার জন্য */
+    }
+
+    /* টেবিল হেডার ডিজাইন */
+    .table-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    /* বইয়ের কভার ছবির স্টাইল */
+    .book-cover {
+        width: 60px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+        .book-cover:hover {
+            transform: scale(1.1); /* ছবির ওপর মাউস নিলে হালকা বড় হবে */
+        }
+
+    /* অ্যাকশন বাটনগুলো */
+    .btn-action {
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-0"><i class="fas fa-list text-primary me-2"></i> Manage Books</h2>
+            <p class="text-muted small mt-1">View, edit, or remove books from your store inventory.</p>
+        </div>
+        <div>
+            <a href="/Admin/AddBook" class="btn btn-primary" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 25px; padding: 10px 20px; font-weight: bold;">
+                <i class="fas fa-plus me-1"></i> Add New Book
+            </a>
+        </div>
+    </div>
+
+    <div class="card table-card">
+        <div class="card-body p-0 table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-header">
+                    <tr>
+                        <th class="py-3 px-4 text-center">Cover</th>
+                        <th class="py-3">Book Title</th>
+                        <th class="py-3">Author</th>
+                        <th class="py-3">Price</th>
+                        <th class="py-3 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var book in Model)
+                        {
+                            <tr>
+                                <td class="px-4 text-center">
+                                    <img src="@book.ImagePath" alt="@book.Title" class="book-cover" onerror="this.src='/images/no-image.jpg'" />
+                                </td>
+
+                                <td class="fw-bold text-dark">@book.Title</td>
+
+                                <td class="text-muted"><i class="fas fa-user-edit small me-1"></i> @book.Author</td>
+
+                                <td class="text-success fw-bold">৳ @book.Price.ToString("0.00")</td>
+
+                                <td class="text-center">
+                                    <a href="/Admin/EditBook/@book.BookId" class="btn btn-outline-primary btn-action me-2" title="Edit Book">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+
+                                    <a href="/Admin/DeleteBook/@book.BookId" class="btn btn-outline-danger btn-action" title="Delete Book" onclick="return confirm('Are you sure you want to completely delete - @book.Title?');">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="fas fa-book-open fa-3x mb-3 text-light"></i>
+                                <h4>No books found in the store.</h4>
+                                <p>Click on "Add New Book" to start adding inventory.</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
